@@ -1,0 +1,101 @@
+#!/usr/bin/env zsh
+
+#    This a zsh prompt for a Solarized dark terminal colorscheme
+#
+#    Copyright (C) 2025 Anders Nygård
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+prompt_cozy_setup() {
+
+	REPORTTIME=5
+	TIMEFMT='%U user, %S kernel, %P cpu, %M mbmaxmem, %X kbheap, %D kbstack, %K kbspacetot, %*E totelapsed'
+
+	# checkers
+	#LEFT_MARKER=$'\u259E'
+	#RIGHT_MARKER=$'\u259A'
+
+	# quarter bar
+	LEFT_MARKER=$'\u258C'
+	RIGHT_MARKER=$'\u2590'
+
+	# designed for ghostty Builtin Solarized Dark
+
+	COSY_FG='14'
+	COSY_BG='0'
+	COSY_FG_WARN='1'
+	COSY_FG_ERR='3'
+	COSY_FG_ACC1='6'
+	COSY_FG_ACC2='2'
+
+	prompt_opts=(cr percent sp subst)
+	autoload -Uz colors vcs_info
+	colors
+
+	add-zsh-hook preexec prompt_cozy_preexec
+	add-zsh-hook precmd prompt_cozy_precmd
+
+	zstyle ':vcs_info:*' enable git 
+	zstyle ':vcs_info:*' check-for-changes true 
+	zstyle ':vcs_info:git:*' formats '%b%f [%u|%c] %m'
+	zstyle ':vcs_info:git:*' actionformats '%b%f [%u|%c] %m %F{$COSY_FG_ACC1}%a%f'
+	zstyle ':vcs_info:*' stagedstr ' +' 
+	zstyle ':vcs_info:*' unstagedstr ' !'
+
+	ZLE_RPROMPT_INDENT=0
+	PS1='%K{${COZY_BG}}%F{${COSY_FG}}${LEFT_MARKER} %(#.#.$)%E %E '
+	PS2='%K{${COZY_BG}}%F{${COSY_FG}}${LEFT_MARKER} %_>%E '
+	RPS1='%~ %n%F{${COSY_FG_ACC1}}@%f%m ${RIGHT_MARKER}'
+}
+	
+get_cursor_pos() {
+	echo -ne "\033[6n" > /dev/tty
+	read -t 1 -s -d 'R' line
+	line="${line##*\[}"
+	col="${line#*;}"
+	line="${line%;*}"
+	echo "( $col $line )"
+}
+
+prompt_cozy_precmd() {
+
+	EXITCODE="$?"
+	vcs_info
+        EC="%F{${COSY_FG_ACC1}}?%f"
+	if [ "$EXITCODE" -eq 0 ] ; then
+		EC="${EC}${EXITCODE}" 
+	else
+		EC="${EC}%F{${COSY_FG_ERR}}${EXITCODE}%f" 
+	fi
+	VCS_INFO=''
+	if [ -n "$vcs_info_msg_0_" ] ; then
+		accent=$'\ue725'
+		VCS_INFO="%F{${COZY_FG_ACC1}}${accent}%f${(MS)vcs_info_msg_0_##[[:graph:]]*[[:graph:]]} "
+	fi
+	print -Pn '%K{${COZY_BG}}%F{${COSY_FG}}${LEFT_MARKER} 20%D %T ${EC} ${VCS_INFO} %(1j.%F{${COSY_FG_ACC1}}j%f%j.) %E'
+	cp=( $(get_cursor_pos) ) 
+	cc=${cp[2]}
+	endcap=$RIGHT_MARKER
+	lec=$#endcap
+	gap=$((COLUMNS - cc - lec + 1))
+	fill=${(l:$gap:)}
+	print "${fill}${endcap}"
+}
+
+prompt_cozy_preexec() {
+	print -Pn '%k%E'
+}
+
+prompt_cozy_setup "$@"
+
