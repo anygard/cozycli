@@ -32,12 +32,12 @@ prompt_cozy_setup() {
 
 	# designed for ghostty Builtin Solarized Dark
 
-	COSY_FG='14'
-	COSY_BG='0'
-	COSY_FG_WARN='1'
-	COSY_FG_ERR='3'
-	COSY_FG_ACC1='6'
-	COSY_FG_ACC2='2'
+	COZY_FG='14'
+	COZY_BG='0'
+	COZY_FG_WARN='1'
+	COZY_FG_ERR='3'
+	COZY_FG_ACC1='6'
+	COZY_FG_ACC2='2'
 
 	prompt_opts=(cr percent sp subst)
 	autoload -Uz colors vcs_info
@@ -48,38 +48,43 @@ prompt_cozy_setup() {
 
 	zstyle ':vcs_info:*' enable git 
 	zstyle ':vcs_info:*' check-for-changes true 
-	zstyle ':vcs_info:git:*' formats '%b%f [%u|%c] %m'
-	zstyle ':vcs_info:git:*' actionformats '%b%f [%u|%c] %m %F{$COSY_FG_ACC1}%a%f'
-	zstyle ':vcs_info:*' stagedstr ' +' 
-	zstyle ':vcs_info:*' unstagedstr ' !'
+	#zstyle ':vcs_info:git:*' formats '%b%f [%u|%c] %m'
+	zstyle ':vcs_info:git:*' formats '%b %u%c %m'
+	#zstyle ':vcs_info:git:*' actionformats '%b%f [%u|%c] %m %F{$COZY_FG_ACC1}%a%f'
+	zstyle ':vcs_info:git:*' actionformats '%b %u%c %m %F{${COZY_FG_ACC2}}%a%f'
+	zstyle ':vcs_info:*' stagedstr $'\u2AD0' 
+	zstyle ':vcs_info:*' unstagedstr $'\u2ACF'
 
 	ZLE_RPROMPT_INDENT=0
-	PS1='%K{${COZY_BG}}%F{${COSY_FG}}${LEFT_MARKER} %(#.#.$)%E %E '
-	PS2='%K{${COZY_BG}}%F{${COSY_FG}}${LEFT_MARKER} %_>%E '
-	RPS1='%~ %n%F{${COSY_FG_ACC1}}@%f%m ${RIGHT_MARKER}'
+	PS1='%K{${COZY_BG}}%F{${COZY_FG}}${LEFT_MARKER} %(#.#.$)%E %E '
+	PS2='%K{${COZY_BG}}%F{${COZY_FG}}${LEFT_MARKER} %_>%E '
+	RPS1='%~ %n%F{${COZY_FG_ACC1}}@%f%m ${RIGHT_MARKER}'
+	RPS2='${RIGHT_MARKER}'
 }
 	
 prompt_cozy_precmd() {
 
 	EXITCODE="$?"
 	vcs_info
-        EC="%F{${COSY_FG_ACC1}}?%f"
+        EC="%F{${COZY_FG_ACC1}}?%f"
 	if [ "$EXITCODE" -eq 0 ] ; then
 		EC="${EC}${EXITCODE}" 
 	else
-		EC="${EC}%F{${COSY_FG_ERR}}${EXITCODE}%f" 
+		EC="${EC}%F{${COZY_FG_ERR}}${EXITCODE}%f" 
 	fi
 	VCS_INFO=''
 	if [ -n "$vcs_info_msg_0_" ] ; then
 		accent=$'\ue725'
+		left=$'\u2AF6'
+		right=$'\u2AF6'
 		VCS_INFO="%F{${COZY_FG_ACC1}}${accent}%f${(MS)vcs_info_msg_0_##[[:graph:]]*[[:graph:]]} "
 	fi
-	print -Pn '%K{${COZY_BG}}%F{${COSY_FG}}${LEFT_MARKER} 20%D %T ${EC} ${VCS_INFO} %(1j.%F{${COSY_FG_ACC1}}j%f%j.) %E'
+	print -Pn '%K{${COZY_BG}}%F{${COZY_FG}}${LEFT_MARKER} 20%D %T ${EC} ${VCS_INFO}%(1j.%F{${COZY_FG_ACC1}}j%f%j.) %E'
 	print "\e[$((COLUMNS))G${RIGHT_MARKER}"
 }
 
 prompt_cozy_preexec() {
-	print -Pn '%k%E'
+	print -P '%k%E'
 }
 
 prompt_cozy_setup "$@"
