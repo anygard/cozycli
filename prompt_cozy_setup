@@ -59,15 +59,6 @@ prompt_cozy_setup() {
 	RPS1='%~ %n%F{${COSY_FG_ACC1}}@%f%m ${RIGHT_MARKER}'
 }
 	
-get_cursor_pos() {
-	echo -ne "\033[6n" > /dev/tty
-	read -t 1 -s -d 'R' line
-	line="${line##*\[}"
-	col="${line#*;}"
-	line="${line%;*}"
-	echo "( $col $line )"
-}
-
 prompt_cozy_precmd() {
 
 	EXITCODE="$?"
@@ -84,13 +75,7 @@ prompt_cozy_precmd() {
 		VCS_INFO="%F{${COZY_FG_ACC1}}${accent}%f${(MS)vcs_info_msg_0_##[[:graph:]]*[[:graph:]]} "
 	fi
 	print -Pn '%K{${COZY_BG}}%F{${COSY_FG}}${LEFT_MARKER} 20%D %T ${EC} ${VCS_INFO} %(1j.%F{${COSY_FG_ACC1}}j%f%j.) %E'
-	cp=( $(get_cursor_pos) ) 
-	cc=${cp[2]}
-	endcap=$RIGHT_MARKER
-	lec=$#endcap
-	gap=$((COLUMNS - cc - lec + 1))
-	fill=${(l:$gap:)}
-	print "${fill}${endcap}"
+	print "\e[$((COLUMNS))G${RIGHT_MARKER}"
 }
 
 prompt_cozy_preexec() {
