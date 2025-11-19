@@ -11,4 +11,6 @@ prompt cozy
 
 ## Background
 
-This is a port of a prompt I created for bash, that prompt was more of a system surrounding CLI *ergonomics*
+This is a port of a prompt I created for bash, that prompt was more of a system
+surrounding CLI *ergonomics*. This prompt is also planned to be a part of a
+bigger context
