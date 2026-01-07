@@ -20,7 +20,7 @@
 prompt_cozy_setup() {
 
 	REPORTTIME=5
-	TIMEFMT='%U user, %S kernel, %P cpu, %M mbmaxmem, %X kbheap, %D kbstack, %K kbspacetot, %*E totelapsed'
+	TIMEFMT='%U user, %S kernel, %P cpu, %M maxmem(Mbyte), %X heap(kbyte), %D stack(kbyte), %K spacetot(kbyte), %*E totelapsed'
 
 	# checkers
 	#LEFT_MARKER=$'\u259E'
@@ -48,9 +48,7 @@ prompt_cozy_setup() {
 
 	zstyle ':vcs_info:*' enable git 
 	zstyle ':vcs_info:*' check-for-changes true 
-	#zstyle ':vcs_info:git:*' formats '%b%f [%u|%c] %m'
 	zstyle ':vcs_info:git:*' formats '%b %u%c %m'
-	#zstyle ':vcs_info:git:*' actionformats '%b%f [%u|%c] %m %F{$COZY_FG_ACC1}%a%f'
 	zstyle ':vcs_info:git:*' actionformats '%b %u%c %m %F{${COZY_FG_ACC2}}%a%f'
 	zstyle ':vcs_info:*' stagedstr $'\u2AD0' 
 	zstyle ':vcs_info:*' unstagedstr $'\u2ACF'
