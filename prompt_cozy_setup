@@ -43,7 +43,7 @@ prompt_cozy_setup() {
 	autoload -Uz colors vcs_info
 	colors
 
-	add-zsh-hook preexec prompt_cozy_preexec
+	#add-zsh-hook preexec prompt_cozy_preexec
 	add-zsh-hook precmd prompt_cozy_precmd
 
 	zstyle ':vcs_info:*' enable git 
@@ -54,8 +54,8 @@ prompt_cozy_setup() {
 	zstyle ':vcs_info:*' unstagedstr $'\u2ACF'
 
 	ZLE_RPROMPT_INDENT=0
-	PS1='%K{${COZY_BG}}%F{${COZY_FG}}${LEFT_MARKER} %(#.#.$)%E %E '
-	PS2='%K{${COZY_BG}}%F{${COZY_FG}}${LEFT_MARKER} %_>%E '
+	PS1='${LEFT_MARKER} %(#.#.$)%E %E '
+	PS2='${LEFT_MARKER} %_>%E '
 	RPS1='%~ %n%F{${COZY_FG_ACC1}}@%f%m ${RIGHT_MARKER}'
 	RPS2='${RIGHT_MARKER}'
 }
