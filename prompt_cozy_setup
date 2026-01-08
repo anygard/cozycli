@@ -33,7 +33,7 @@ prompt_cozy_setup() {
 	# designed for ghostty Builtin Solarized Dark
 
 	COZY_FG='14'
-	COZY_BG='0'
+	COZY_BG='8'
 	COZY_FG_WARN='1'
 	COZY_FG_ERR='3'
 	COZY_FG_ACC1='6'
