@@ -1,4 +1,11 @@
-# This is the help
+# CozyCLI
 
-lorem ipsum dolor
+lorem ipsum dolor sit amet
 
+
+## Prerequisits
+
+This prompt is designed for a solarized-dark colortheme. It works best if the
+colortheme has default background set to base03. The file
+Solarized_Dark_anygard is a [ghostty|https://ghostty.org/] theme file for such
+a theme.
