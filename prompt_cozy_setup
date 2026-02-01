@@ -77,7 +77,7 @@ prompt_cozy_precmd() {
 		right=$'\u2AF6'
 		VCS_INFO="%F{${COZY_FG_ACC1}}${accent}%f${(MS)vcs_info_msg_0_##[[:graph:]]*[[:graph:]]} "
 	fi
-	print -Pn '%K{${COZY_BG}}%F{${COZY_FG}}${LEFT_MARKER} 20%D %T ${EC} ${VCS_INFO}%(1j.%F{${COZY_FG_ACC1}}j%f%j.) %E'
+	print -Pn '%K{${COZY_BG}}%F{${COZY_FG}}${LEFT_MARKER} 20%D %T ${EC} %(1j.%F{${COZY_FG_ACC1}}j%f%j.) ${VCS_INFO} %E'
 	print "\e[$((COLUMNS))G${RIGHT_MARKER}"
 }
 
