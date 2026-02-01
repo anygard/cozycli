@@ -29,8 +29,8 @@ Schoonovers](https://ethanschoonover.com/solarized/) vision.
 
 ## Background
 
-This is a port of a prompt I created for bash. The look is slightly different
-due to the fact that I did not succeed in combineing non-default background
-color on the command line with features lie auto suggest and syntax
-highlighting.
+This is a port of a prompt I created for bash. The look differs a little from
+the bash version due to the fact that I did not succeed in combining
+non-default background color on the command line with features like auto
+suggest and syntax highlighting. The bash prompt 
 
