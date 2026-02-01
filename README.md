@@ -2,7 +2,7 @@
 
 This is a zsh prompt made from scratch only utilizing native zsh functionality
 no frameworks or anything. It aims to be understated and subtle. It uses
-vertical features on the left and right to visally tie prompt and command
+vertical features on the left and right to visually tie prompt and command
 line(s) together and  contrast them with all the other lines, the output from
 all the programs.  
 
