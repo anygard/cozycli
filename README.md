@@ -34,3 +34,7 @@ the bash version due to the fact that I did not succeed in combining
 non-default background color on the command line with features like auto
 suggest and syntax highlighting. The bash prompt 
 
+
+## For more info 
+
+For more info look into [prompt_cozy_help](prompt_cozy_help)

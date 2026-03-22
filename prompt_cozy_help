@@ -1,6 +1,10 @@
-# CozyCLI
+# Cozy - a zsh prompt
 
-lorem ipsum dolor sit amet
+This is a zsh prompt made from scratch only utilizing native zsh functionality
+no frameworks or anything. It aims to be understated and subtle. It uses
+vertical features on the left and right to visually tie prompt and command
+line(s) together and contrast them with all the other lines, the output from
+all the programs.
 
 
 ## Prerequisits
@@ -9,3 +13,74 @@ This prompt is designed for a solarized-dark colortheme. It works best if the
 colortheme has default background set to base03. The file
 Solarized_Dark_anygard is a [ghostty|https://ghostty.org/] theme file for such
 a theme.
+
+
+## Customization
+
+There is support for the following zstyle contexts and styles
+
+### :cozy:background regular
+
+Set the color of the regular prompt background. Takes an integer in the 0-15
+range the value is the color index in a 16 color theme. 
+
+
+### :cozy:foreground regular
+
+Set the color of the regular prompt foreground. Takes an integer in the 0-15
+range the value is the color index in a 16 color theme. 
+
+
+### :cozy:foreground warning
+
+Set the color of the foreground of warning messages. Takes an integer in the 0-15
+range the value is the color index in a 16 color theme. 
+
+
+### :cozy:foreground error
+
+Set the color of the foreground of error messages. Takes an integer in the 0-15
+range the value is the color index in a 16 color theme. 
+
+### :cozy:foreground primary_accent
+
+Set the color of the foreground of text with the primary accent. Takes an
+integer in the 0-15 range the value is the color index in a 16 color theme. 
+
+
+### :cozy:foreground secondary_accent
+
+Set the color of the foreground of text with the secondary accent. Takes an
+integer in the 0-15 range the value is the color index in a 16 color theme. 
+
+
+### :cozy:vcs:char banner
+
+Set the banner character for VCS info in the prompt. Takes a character value
+either as a character or in unicode $'\XXXX' notation.
+
+
+### :cozy:vcs:char staged
+
+Set the staged character for VCS info in the prompt. Takes a character value
+either as a character or in unicode $'\XXXX' notation.
+
+
+### :cozy:vcs:char unstaged
+
+Set the unstaged character for VCS info in the prompt. Takes a character value
+either as a character or in unicode $'\XXXX' notation.
+
+
+### :cozy:marker left
+
+Set the character written in the very first position on all lines associated
+with the prompt. Takes a character value either as a character or in unicode
+$'\XXXX' notation.
+
+
+### :cozy:marker right
+
+Set the character written in the very last position on all lines associated
+with the prompt. Takes a character value either as a character or in unicode
+$'\XXXX' notation.

@@ -30,14 +30,33 @@ prompt_cozy_setup() {
 	LEFT_MARKER=$'\u258C'
 	RIGHT_MARKER=$'\u2590'
 
+	zstyle -L ':cozy:marker' left > /dev/null && zstyle -s ':cozy:marker' left LEFT_MARKER
+	zstyle -L ':cozy:marker' right > /dev/null && zstyle -s ':cozy:marker' right RIGHT_MARKER
+
 	# designed for ghostty Builtin Solarized Dark
 
-	COZY_FG='14'
 	COZY_BG='8'
+	COZY_FG='14'
 	COZY_FG_WARN='1'
 	COZY_FG_ERR='3'
 	COZY_FG_ACC1='6'
 	COZY_FG_ACC2='2'
+
+	zstyle -L ':cozy:background' regular > /dev/null && zstyle -s ':cozy:background' regular	COZY_BG
+	zstyle -L ':cozy:foreground' regular > /dev/null && zstyle -s ':cozy:foreground' regular	COZY_FG
+	zstyle -L ':cozy:foreground' warning > /dev/null && zstyle -s ':cozy:foreground' warning COZY_FG_WARN
+	zstyle -L ':cozy:foreground' error > /dev/null && zstyle -s ':cozy:foreground' error COZY_FG_ERR
+	zstyle -L ':cozy:foreground' primary_accent > /dev/null && zstyle -s ':cozy:foreground' primary_accent COZY_FG_ACC1
+	zstyle -L ':cozy:foreground' secondary_accent > /dev/null && zstyle -s ':cozy:foreground' secondary_accent COZY_FG_ACC2
+
+	COZY_VCS_BANNER=$'\ue725'
+	zstyle -L ':cozy:vcs:char' banner > /dev/null && zstyle -s ':cozy:vcs:char' banner COZY_VCS_BANNER
+	
+	COZY_VCS_STAGED=s
+	zstyle -L ':cozy:vcs:char' staged > /dev/null && zstyle -s ':cozy:vcs:char' staged COZY_VCS_STAGED
+
+	COZY_VCS_UNSTAGED=u
+	zstyle -L ':cozy:vcs:char' unstaged > /dev/null && zstyle -s ':cozy:vcs:char' unstaged COZY_VCS_UNSTAGED
 
 	prompt_opts=(cr percent sp subst)
 	autoload -Uz colors vcs_info
@@ -50,8 +69,8 @@ prompt_cozy_setup() {
 	zstyle ':vcs_info:*' check-for-changes true 
 	zstyle ':vcs_info:git:*' formats '%b %u%c %m'
 	zstyle ':vcs_info:git:*' actionformats '%b %u%c %m %F{${COZY_FG_ACC2}}%a%f'
-	zstyle ':vcs_info:*' stagedstr $'\u2AD0' 
-	zstyle ':vcs_info:*' unstagedstr $'\u2ACF'
+	zstyle ':vcs_info:*' stagedstr $COZY_VCS_STAGED
+	zstyle ':vcs_info:*' unstagedstr $COZY_VCS_UNSTAGED
 
 	ZLE_RPROMPT_INDENT=0
 	PS1='${LEFT_MARKER} %(#.#.$)%E %E '
@@ -72,10 +91,7 @@ prompt_cozy_precmd() {
 	fi
 	VCS_INFO=''
 	if [ -n "$vcs_info_msg_0_" ] ; then
-		accent=$'\ue725'
-		left=$'\u2AF6'
-		right=$'\u2AF6'
-		VCS_INFO="%F{${COZY_FG_ACC1}}${accent}%f${(MS)vcs_info_msg_0_##[[:graph:]]*[[:graph:]]} "
+		VCS_INFO="%F{${COZY_FG_ACC1}}${COZY_VCS_BANNER}%f${(MS)vcs_info_msg_0_##[[:graph:]]*[[:graph:]]} "
 	fi
 	print -Pn '%K{${COZY_BG}}%F{${COZY_FG}}${LEFT_MARKER} 20%D %T ${EC} %(1j.%F{${COZY_FG_ACC1}}j%f%j.) ${VCS_INFO} %E'
 	print "\e[$((COLUMNS))G${RIGHT_MARKER}"
