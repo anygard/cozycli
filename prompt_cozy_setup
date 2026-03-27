@@ -73,10 +73,12 @@ prompt_cozy_setup() {
 	zstyle ':vcs_info:*' unstagedstr $COZY_VCS_UNSTAGED
 
 	ZLE_RPROMPT_INDENT=0
-	PS1='${LEFT_MARKER} %(#.#.$)%E %E '
+	PS1='${LEFT_MARKER} %(#.#.$)%E '
 	PS2='${LEFT_MARKER} %_>%E '
 	RPS1='%~ %n%F{${COZY_FG_ACC1}}@%f%m ${RIGHT_MARKER}'
 	RPS2='${RIGHT_MARKER}'
+
+	PS1_BACKUP="$PS1"
 }
 	
 prompt_cozy_precmd() {
@@ -93,7 +95,15 @@ prompt_cozy_precmd() {
 	if [ -n "$vcs_info_msg_0_" ] ; then
 		VCS_INFO="%F{${COZY_FG_ACC1}}${COZY_VCS_BANNER}%f${(MS)vcs_info_msg_0_##[[:graph:]]*[[:graph:]]} "
 	fi
-	print -Pn '%K{${COZY_BG}}%F{${COZY_FG}}${LEFT_MARKER} 20%D %T ${EC} %(1j.%F{${COZY_FG_ACC1}}j%f%j.) ${VCS_INFO} %E'
+	if [ -n "$VIRTUAL_ENV" ] ; then
+		if [ ! "$VIRTUAL_ENV" = "$ACTIVE_VENV" ] ; then
+			VENVSTR="${PS1%$PS1_BACKUP}"
+			VENV="%F{$COZY_FG_ACC1}pyv%f${VENVSTR:1:-2}"
+			PS1="$PS1_BACKUP"
+			export ACTIVE_VENV="$VIRTUAL_ENV"
+		fi
+	fi
+	print -Pn '%K{${COZY_BG}}%F{${COZY_FG}}${LEFT_MARKER} 20%D %T ${EC} %(1j.%F{${COZY_FG_ACC1}}j%f%j.) ${VCS_INFO} ${VENV} %E'
 	print "\e[$((COLUMNS))G${RIGHT_MARKER}"
 }
 
