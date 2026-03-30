@@ -102,6 +102,9 @@ prompt_cozy_precmd() {
 			PS1="$PS1_BACKUP"
 			export ACTIVE_VENV="$VIRTUAL_ENV"
 		fi
+	elif [ -n "$ACTIVE_VENV" ] ; then
+		unset ACTIVE_VENV
+		unset VENV
 	fi
 	print -Pn '%K{${COZY_BG}}%F{${COZY_FG}}${LEFT_MARKER} 20%D %T ${EC} %(1j.%F{${COZY_FG_ACC1}}j%f%j.) ${VCS_INFO} ${VENV} %E'
 	print "\e[$((COLUMNS))G${RIGHT_MARKER}"
